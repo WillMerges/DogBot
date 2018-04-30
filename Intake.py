@@ -4,7 +4,7 @@ import numpy as np
 class Intake(Object):
 
     def __init__(self, negated=False):
-        motor = motor.Motor(constants.intakeMotor)
+        self.motor = motor.Motor(constants.intakeMotor)
         self.negated = negated
 
     def succ(self, speed=1):
@@ -18,3 +18,6 @@ class Intake(Object):
             motor.set(-np.absolute(speed))
         else:
             motor.set(np.absolute(speed))
+
+    def stop(self):
+        motor.stop
