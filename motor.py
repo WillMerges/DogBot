@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import time
-import Constants
+import constants
 from gpiozero import PWMOutputDevice
 
 class Motor(Object):
@@ -22,7 +22,7 @@ class Motor(Object):
         rev.value = False
         pwm.value = 0
 
-    def setMotor(self, speed):
+    def set(self, speed):
         if speed > 0.0:
             fwd.value = True
             rev.value = False
@@ -33,13 +33,3 @@ class Motor(Object):
             pwm.value = np.absolute(speed)
         else:
             stop()
-
-    #speed is a value between -1 and 1
-    #rotation is a value between -1 and 1: - is left, + is right
-    def drive(self, speed, rotation, squaredInputs=False):
-        if squaredInputs:
-            speed *= speed
-            rotation *= rotation
-
-        if speed > 0.0:
-            if rotation > 0.0:
