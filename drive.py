@@ -3,11 +3,12 @@ import sys
 import time
 import motor
 import constants
+from __future__ import division
 
 class Drive(Object):
 
-    def __init__(self, maxOutput=1, negateLeft=False, negateLeft=False):
-        self.lMotor = motor.Motor(constant.lMotor)
+    def __init__(self, deadBand = 0.02, maxOutput=1, negateLeft=False, negateLeft=False):
+        self.lMotor = motor.Motor(constants.lMotor)
         self.rMotor = motor.Motor(constants.rMotor)
 
         self.negateLeft = negateLeft
@@ -17,6 +18,7 @@ class Drive(Object):
         self.lSpeed = 0
 
         self.maxOutput = 1
+        self.deadBand = deadBand
 
     #speed is a value between -1 and 1
     #rotation is a value between -1 and 1: - is left, + is right
@@ -48,5 +50,14 @@ class Drive(Object):
         lSpeed *= maxOutput
         rSpeed *= maxOutput
 
+        lSpeed = applyDeadband(lSpeed)
+        rSpeed = applyDeadband(rSpeed)
+
         lMotor.set(lSpeed)
         rMotor.set(rSpeed)
+
+    def applyDeadband(self, value):
+        if np.absolute(value) < 0.0:
+            return (value - self.deadBand) / (1.0 - deadband)
+        else:
+            return (value + self.deadBand) / (1.0 - deadBand)

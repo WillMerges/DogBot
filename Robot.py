@@ -4,6 +4,8 @@ import xbox
 import constants
 import intake
 
+test = True
+
 drive = drive.Drive()
 intake = intake.Intake()
 joy = xbox.joystick()
@@ -21,6 +23,13 @@ def loop():
     else:
         intake.stop()
 
+#use this method to test systems individually, set "test" boolean to true
+def test():
+    loop()
+
 if __name__ == "__main__":
     while 1:
-        loop()
+        if test:
+            test()
+        else:
+            loop()
