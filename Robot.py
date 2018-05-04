@@ -25,7 +25,8 @@ def loop():
 
 #use this method to test systems individually, set "test" boolean to true
 def test():
-    loop()
+    drive.drive(0.5,0)
+    #loop()
 
 if __name__ == "__main__":
     while 1:
