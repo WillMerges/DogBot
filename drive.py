@@ -7,7 +7,7 @@ from __future__ import division
 
 class Drive(Object):
 
-    def __init__(self, deadBand = 0.02, maxOutput=1, negateLeft=False, negateLeft=False):
+    def __init__(self, deadBand = 0.02, maxOutput=1, negateLeft=False, negateRight=False):
         self.lMotor = motor.Motor(constants.lMotor)
         self.rMotor = motor.Motor(constants.rMotor)
 
@@ -29,18 +29,26 @@ class Drive(Object):
 
         if speed >= 0.0:
             if rotation >= 0.0:
-                lSpeed = 1
+                lSpeed = speed #1
                 rSpeed = speed - rotation
             else:
                 lSpeed = speed + rotation
-                rSpeed = 1
+                rSpeed = speed #1
         else:
             if rotation >= 0.0:
                 lSpeed = speed + rotation
-                rSpeed = 1
+                rSpeed = speed #1
             else:
-                lSpeed = 1
+                lSpeed = speed #1
                 rSpeed = speed - rotation
+
+        #normalize, kind of
+        if lSpeed > 1:
+            rSpeed = rSpeed - (lSpeed - 1)
+            lSpeed = 1
+        if rSpeed > 1:
+            lSpeed = lSpeed - (rSpeed - 1)
+            rSpeed = 1
 
         if negateLeft:
             lSpeed *= -1
